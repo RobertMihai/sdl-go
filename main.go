@@ -19,7 +19,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	req.Header.Add("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(":ce4czgsy3jo7j7c5ppl6i2gi7mbmypbcui66erwnzxm6wjfmrkqq")))
+	req.Header.Add("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(":PAT")))
 
 	res, err := http.DefaultClient.Do(req)
 
