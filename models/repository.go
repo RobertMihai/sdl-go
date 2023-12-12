@@ -1,5 +1,7 @@
 package models
 
+import "fmt"
+
 type Repository struct {
 	Id      string `json:"id"`
 	Name    string `json:"name"`
@@ -20,4 +22,13 @@ type Repository struct {
 	WebUrl          string `json:"webUrl"`
 	IsDisabled      string `json:"isDisabled"`
 	IsInMaintenance string `json:"isInMaintenance"`
+}
+
+func NewRepository() *Repository {
+	return &Repository{}
+}
+
+func (r *Repository) ToString() string {
+	result := fmt.Sprintf("id: %s", r.Id)
+	return result
 }

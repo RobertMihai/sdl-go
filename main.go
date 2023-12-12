@@ -7,10 +7,22 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"sdl/models"
+	"os"
+
+	"github.com/RobertMihai/sdl-go/models"
+	"github.com/joho/godotenv"
 )
 
+var repository = *models.NewRepository()
+
 func main() {
+
+	err := godotenv.Load(".env.local")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	url := "https://dev.azure.com/SecurityRaccoon/ProjectIcarus/_apis/git/repositories?api-version=7.2-preview.1"
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
@@ -19,7 +31,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	req.Header.Add("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(":PAT")))
+	pat := os.Getenv("PAT")
+
+	req.Header.Add("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(":"+pat)))
 
 	res, err := http.DefaultClient.Do(req)
 
@@ -35,12 +49,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	repository := models.Repository
 	json.NewDecoder(res.Body).Decode(&repository)
 
 	fmt.Println(string(body[:]))
 
 	fmt.Printf("status code: %d\n", res.StatusCode)
 
-	fmt.Println(repository)
+	fmt.Println(repository.ToString())
 }
