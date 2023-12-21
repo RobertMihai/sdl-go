@@ -22,6 +22,10 @@ spec:
           value: password
         - name: MYSQL_DATABASE
           value: devops
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
         ports:
         - containerPort: 3306
           name: mysql

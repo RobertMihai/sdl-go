@@ -3,9 +3,9 @@
 resources:
 - deployment.yaml
 - services.yaml
-- client_id_sealed.yaml
-- client_secret_sealed.yaml
-- tenant_id_sealed.yaml
+# - client_id_sealed.yaml
+# - client_secret_sealed.yaml
+# - tenant_id_sealed.yaml
 - mysql-deployment.yaml
 # - zookeeper.yaml
 # - kafka.yaml
