@@ -1,0 +1,41 @@
+# kubectl port-forward svc/graphapp-service 8000:8000
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sdl-go
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sdl-go
+  template:
+    metadata:
+      labels:
+        app: sdl-go
+    spec:
+      containers:
+      - name: sdl-go
+        image: docker.io/robertcretu/sdl-go:latest
+        imagePullPolicy: Always
+        # env:
+        # - name: CLIENT_SECRET
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: clientsecret
+        #       key: CLIENT_SECRET
+        # - name: CLIENT_ID
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: clientid
+        #       key: CLIENT_ID
+        # - name: TENANT_ID
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: tenantid
+        #       key: TENANT_ID
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8000

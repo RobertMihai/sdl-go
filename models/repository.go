@@ -1,11 +1,10 @@
 package models
 
 import (
-	"encoding/base64"
-	"encoding/json"
 	"fmt"
-	"net/http"
-	"os"
+	"sdl/helper"
+
+	"gorm.io/gorm"
 )
 
 type Repositories struct {
@@ -33,34 +32,53 @@ type Repository struct {
 	WebUrl          string `json:"webUrl"`
 	IsDisabled      bool   `json:"isDisabled"`
 	IsInMaintenance bool   `json:"isInMaintenance"`
+	Type            string `json:"type"`
 }
 
-func InitRepos() *Repositories {
-	url := fmt.Sprintf("https://dev.azure.com/%s/%s/_apis/git/repositories?api-version=%s", os.Getenv("ORG"), os.Getenv("PROJECT"), os.Getenv("APIVERSION"))
-	repos := Repositories{}
+var db *gorm.DB
 
-	err := GetJson(url, &repos)
+func init() {
+	helper.Connect()
+	db = helper.GetDB()
+	db.AutoMigrate(&Repository{})
+}
+
+func InitRepos(project string) *Repositories {
+	repos := Repositories{}
+	// project := os.Getenv("PROJECT")
+	path := "git/repositories"
+
+	err := helper.GetJson(project, path, "", &repos, false)
 	if err != nil {
 		fmt.Println(err)
+	}
+
+	for _, value := range repos.Value {
+		value.StoreRepo()
 	}
 
 	return &repos
 }
 
-func GetJson(url string, target interface{}) error {
-	req, err := http.NewRequest(http.MethodGet, url, nil)
-	if err != nil {
-		return err
+func (r *Repositories) GetDefaultBranch(repo_name string) (string, error) {
+	for _, repo := range r.Value {
+		if repo_name == repo.Name {
+			return repo.DefaultBranch, nil
+		}
 	}
 
-	req.Header.Add("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(":"+os.Getenv("PAT"))))
-	resp, err := http.DefaultClient.Do(req)
+	return "", fmt.Errorf("repo %s not found", repo_name)
+}
 
-	if err != nil {
-		return err
-	}
+func (r *Repository) StoreRepo() *Repository {
+	db.Create(&r)
 
-	defer resp.Body.Close()
+	return r
+}
 
-	return json.NewDecoder(resp.Body).Decode(&target)
+func GetAllRepositories() []Repository {
+	var repositories []Repository
+	db.Find(&repositories)
+
+	return repositories
 }

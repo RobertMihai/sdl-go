@@ -1,0 +1,14 @@
+kind: SealedSecret
+apiVersion: bitnami.com/v1alpha1
+metadata:
+  name: tenantid
+  namespace: default
+  creationTimestamp: null
+spec:
+  template:
+    metadata:
+      name: tenantid
+      namespace: default
+      creationTimestamp: null
+  encryptedData:
+    TENANT_ID: AgCvzqwqGTZII+vi9xEQ7MQnQ99S8NfvBN57+SOTgD4+obKft0w+e6SDmpgQSSNzTfnIzIMpr4DFOZM9gpHsoprnTgk44JVbfGbuKgcJXP1pZe0OM5jR/daEWAqgRoOY0NpDunbziTxjPLzP1aDb7miLwWkoPA5smMUVo42gprDzKi9NblqN+4y5A6vbYgHnqEa5eqQk+PBedVj+wJohwFjGohk2nT86IDKVNmeLA4f2v79PGMEtrQYkihObvrPvzbyquHKYjLVTx/9J72DqrNrNykG14YO/SdZwYRI2m+PZjwbInyMFNOT17qDaaEaiR47hjGHvbrta5j0u5HbT/n9bmiiUz/5BauCKt+0cwYepzSe9h3spAtuzeC7XAQNDHSn0FF2XMuKOnqKzEzD3mfRp5igZjXpvaIdjryQ466Bbv2yzIn+8kJe5x05KakGfVKuLQAN2Ntm+3WQ8zcmF6uXAUNJitra2/SK8uRAJXrzFxlgS1WAtEy89ofjgXjjRZV1b3/te15mu3gNftuLNzPggaH2cE+FwZ0zRXRO1uSzrTDgTWKnLZyvomA4TPnTe9rTIzGIAfNTmknyIoBou4Bc1gd6MA/aJZiumSwwuDHmfg4KZSEdeTMErj3ud3/ENBKy/b88E6+ApJwvWlXfNMKdFgyKXy3mhxXzzZzgBYzXPC4qhfS9i5DWZzxVxWll31Ki5qwspHFiqL4ISi2vmuHA395rO/Lv1Cf3DRMFFo8EQXjaAb2Q=

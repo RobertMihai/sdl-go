@@ -1,0 +1,14 @@
+kind: SealedSecret
+apiVersion: bitnami.com/v1alpha1
+metadata:
+  name: clientid
+  namespace: default
+  creationTimestamp: null
+spec:
+  template:
+    metadata:
+      name: clientid
+      namespace: default
+      creationTimestamp: null
+  encryptedData:
+    CLIENT_ID: AgADxpDpYu1IWHuE7GKRQ5Xy9YK6a1C70a9dMapQANXIpIXnzyw75EYzd7Fpp4DxGWXGV39cLI5ojSWK9mhnjH6lLrxT8EtiNHMAh36x9MwOIRgyI16/vTERIGOHie4a0wsWXngLPXS9OP3rzg5EFOpgdmX1h5zubna9M6qV0nf5druCHbrUjohQVH2MrYEAND+FvJkmkTeFGwwwtaKum6AUN10qqKvQeZgA4Oa6AbZuPyFtEyhenxdtkD4TBK+ScQ6NPRCxt5SdEZYOIWIog/ckUTo2UOgr+aAO0ofoMRYPJXQVM4Yx83FEJ4r23IPJXteO/IMDFG7lCnGRCDw0jozJWD+T0j7N9nIi3G8Aghv/HTTaSegliEEqfzK0FTEYx6TeUOOACCfVpM+LJPl9M6zo0rds7UQYSlwJWCgVdwR9VKTb08RvxQpjSk+1tcFYJ5wowq7I4gGJ1v6JWJ7b55RpWE5KBNxtlnq6twEbXgKR+95Cf9CoYM0QAlLo2z4NkYuzaCQbJl6UJTjTpHlPFloXxjrRy0JHhLBLpAn2gb+Acb5w9wjrJG70Zf7r+h2nJyzrHEXcu0aDXwBpVb5MDDtf04v37AethkcmNOA3zg4pbwUO+GlEZULSu+pkLo5cwxOqYsLQkWaXST5wOvWEfIGCn2mFeaNzzZuGo0laMDIZ+jucVWV3ax2oTn4YXowMivQ8tEguNjBwTMs8FUbm3ysJJt+mD6vxtmJbKP9rk39yhRbho48=
