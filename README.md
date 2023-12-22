@@ -1,6 +1,5 @@
 # sdl-go
 
-
 docker build -t robertcretu/graphapp:latest . -f deploy/Dockerfile
 argocd admin initial-password -n argocd
 docker push robertcretu/graphapp:latest   
