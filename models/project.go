@@ -1,8 +1,10 @@
 package models
 
 import (
-	"fmt"
+	"log/slog"
 	"sdl/helper"
+
+	"gorm.io/gorm"
 )
 
 type Projects struct {
@@ -11,22 +13,45 @@ type Projects struct {
 }
 
 type Project struct {
-	Id          string `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Url         string `json:"url"`
-	State       string `json:"state"`
+	gorm.Model
+	ID             string `json:"id" gorm:"primaryKey"`
+	Name           string `json:"name"`
+	Description    string `json:"description"`
+	Url            string `json:"url"`
+	State          string `json:"state"`
+	Revision       int    `json:"revision"`
+	Visibility     string `json:"visibility"`
+	LastUpdateTime string `json:"lastUpdateTime"`
 }
 
-func InitProjects() *Projects {
+var db *gorm.DB
+var logger *slog.Logger
+
+func InitProjects() {
+	logger = helper.GetLogger()
+	db = helper.GetDB()
+	db.AutoMigrate(&Project{})
+
 	projects := Projects{}
 	path := "projects"
 
 	err := helper.GetJson("", path, "", &projects, false)
 	if err != nil {
-		fmt.Println(err)
+		logger.Error(err.Error())
 	}
 
-	return &projects
+	for _, project := range projects.Value {
+		project.StoreProject()
+		// InitRepos(project.Name)
+		InitPolicies(project.Name, "", "")
+	}
 
+}
+
+func (p *Project) StoreProject() *Project {
+	db.Create(&p)
+
+	// logger.Error(stuff.Error.Error())
+
+	return p
 }

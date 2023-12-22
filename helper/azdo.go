@@ -11,6 +11,7 @@ import (
 
 var url = "https://dev.azure.com/"
 var args = "?api-version="
+var logger = GetLogger()
 
 func GetJson(project string, path string, extra_args string, target interface{}, debug bool) error {
 	full_url := ""
@@ -20,7 +21,8 @@ func GetJson(project string, path string, extra_args string, target interface{},
 		full_url = url + os.Getenv("ORG") + "/" + project + "/_apis/" + path + args + os.Getenv("APIVERSION") + "&" + extra_args
 	}
 
-	fmt.Println("full url for request: " + full_url)
+	// fmt.Println("full url for request: " + full_url)
+	// logger.Info("full url for request: " + full_url)
 
 	req, err := http.NewRequest(http.MethodGet, full_url, nil)
 	if err != nil {
@@ -37,9 +39,10 @@ func GetJson(project string, path string, extra_args string, target interface{},
 	if debug {
 		value, err := io.ReadAll(resp.Body)
 		if err != nil {
-			fmt.Println(err)
+			logger.Info(err.Error())
 		}
 		fmt.Println(string(value))
+		// logger.Info(string(value))
 	}
 
 	defer resp.Body.Close()

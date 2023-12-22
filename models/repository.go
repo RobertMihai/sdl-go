@@ -3,8 +3,6 @@ package models
 import (
 	"fmt"
 	"sdl/helper"
-
-	"gorm.io/gorm"
 )
 
 type Repositories struct {
@@ -13,18 +11,10 @@ type Repositories struct {
 }
 
 type Repository struct {
-	Id      string `json:"id"`
-	Name    string `json:"name"`
-	Url     string `json:"url"`
-	Project struct {
-		Id             string `json:"id"`
-		Name           string `json:"name"`
-		Url            string `json:"url"`
-		State          string `json:"state"`
-		Revision       int32  `json:"revision"`
-		Visibility     string `json:"visibility"`
-		LastUpdateTime string `json:"lastUpdateTime"`
-	}
+	ID              string `json:"id" gorm:"primaryKey"`
+	Name            string `json:"name"`
+	Url             string `json:"url"`
+	ProjectID       string `json:"projectID" gorm:"foreignKey:ID;size:100"`
 	DefaultBranch   string `json:"defaultBranch"`
 	Size            int64  `json:"size"`
 	RemoteUrl       string `json:"remoteUrl"`
@@ -35,15 +25,9 @@ type Repository struct {
 	Type            string `json:"type"`
 }
 
-var db *gorm.DB
-
-func init() {
-	helper.Connect()
-	db = helper.GetDB()
-	db.AutoMigrate(&Repository{})
-}
-
 func InitRepos(project string) *Repositories {
+	db.AutoMigrate(&Repository{})
+
 	repos := Repositories{}
 	// project := os.Getenv("PROJECT")
 	path := "git/repositories"
@@ -60,15 +44,15 @@ func InitRepos(project string) *Repositories {
 	return &repos
 }
 
-func (r *Repositories) GetDefaultBranch(repo_name string) (string, error) {
-	for _, repo := range r.Value {
-		if repo_name == repo.Name {
-			return repo.DefaultBranch, nil
-		}
-	}
+// func (r *Repositories) GetDefaultBranch(repo_name string) (string, error) {
+// 	for _, repo := range r.Value {
+// 		if repo_name == repo.Name {
+// 			return repo.DefaultBranch, nil
+// 		}
+// 	}
 
-	return "", fmt.Errorf("repo %s not found", repo_name)
-}
+// 	return "", fmt.Errorf("repo %s not found", repo_name)
+// }
 
 func (r *Repository) StoreRepo() *Repository {
 	db.Create(&r)
@@ -76,9 +60,9 @@ func (r *Repository) StoreRepo() *Repository {
 	return r
 }
 
-func GetAllRepositories() []Repository {
-	var repositories []Repository
-	db.Find(&repositories)
+// func GetAllRepositories() []Repository {
+// 	var repositories []Repository
+// 	db.Find(&repositories)
 
-	return repositories
-}
+// 	return repositories
+// }

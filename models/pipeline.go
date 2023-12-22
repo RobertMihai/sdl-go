@@ -14,7 +14,7 @@ type Pipelines struct {
 }
 
 type Pipeline struct {
-	Url           string                `json"url"`
+	Url           string                `json:"url"`
 	Id            int32                 `json:"id"`
 	Revision      int32                 `json:"revision"`
 	Name          string                `json:"name"`
@@ -36,7 +36,7 @@ func InitPipelines() *Pipelines {
 
 	err := helper.GetJson(project, path, "", &pipelines, false)
 	if err != nil {
-		fmt.Println(err)
+		logger.Info(err.Error())
 	}
 
 	return &pipelines
@@ -49,7 +49,7 @@ func (p *Pipeline) GetPipeline() *Pipeline {
 	err := helper.GetJson(project, path, "", &p, false)
 
 	if err != nil {
-		fmt.Println(err)
+		logger.Info(err.Error())
 	}
 
 	return p

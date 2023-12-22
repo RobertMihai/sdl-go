@@ -1,29 +1,40 @@
 package main
 
 import (
-	"fmt"
-	"log"
+	"log/slog"
+	"sdl/helper"
 	"sdl/models"
 
 	"github.com/joho/godotenv"
 )
 
-func main() {
+var logger *slog.Logger
 
+func Init() {
+	helper.Connect()
+
+	helper.InitLogger()
+	logger = helper.GetLogger()
+}
+
+func main() {
 	err := godotenv.Load(".env.local")
 
 	if err != nil {
-		log.Fatal(err)
+		logger.Info(err.Error())
 	}
 
-	projects := models.InitProjects()
-	fmt.Println(projects.Value[0].Name)
+	Init()
 
-	for _, value := range projects.Value {
-		repositories := models.InitRepos(value.Name)
+	// projects := models.InitProjects(db)
+	models.InitProjects()
+	// fmt.Println(projects.Value[0].Name)
 
-		fmt.Printf("In project %s found %d repositories\n", value.Name, len(repositories.Value))
-	}
+	// for _, value := range projects.Value {
+	// 	repositories := models.InitRepos(value.Name)
+
+	// 	fmt.Printf("In project %s found %d repositories\n", value.Name, len(repositories.Value))
+	// }
 
 	// fmt.Println(repositories.Value[0].Name)
 
@@ -35,12 +46,14 @@ func main() {
 
 	// fmt.Printf("Project icarus repo default branch: %s\n", default_branch)
 
-	models.InitPolicies()
-	// fmt.Println(policies)
+	// policies := models.InitPolicies("ATR", "", "")
+	// fmt.Println(policies.Value[0].ID)
 
-	pipelines := models.InitPipelines()
-	fmt.Println(pipelines.Value[0].Name)
+	// // fmt.Println(policies)
 
-	pipeline := pipelines.Value[0].GetPipeline()
-	fmt.Println(pipeline.Configuration.Path)
+	// pipelines := models.InitPipelines()
+	// fmt.Println(pipelines.Value[0].Name)
+
+	// pipeline := pipelines.Value[0].GetPipeline()
+	// fmt.Println(pipeline.Configuration.Path)
 }
